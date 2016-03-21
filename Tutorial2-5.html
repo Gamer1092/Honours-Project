@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+
+<title>Move Square with the Mouse</title>
+<h1>Move Square with the Mouse:</h1>
+
+<canvas id="Honours Project 2.5" width="600" height="500"
+style="border:2px solid #000000;">
+Your browser does not support HTML5 canvas
+</canvas>
+
+<script>
+var c = document.getElementById("Honours Project 2.5");
+var tut25 = c.getContext("2d");
+
+var x = 5;
+var y = 5;
+
+tut25.fillRect(x, y, 150, 150);
+
+//Have the square following the mouse while the cursor remains in the canvas
+function MoveSquare(event){
+  if(event.clientX < c.width && event.clientY < c.height){
+    x = event.clientX;
+    y = event.clientY;
+  }
+
+  if(event.clientX > c.width || event.clientY > c.height){ 
+    x = 5;
+    y = 5;
+  }
+
+  c.width = c.width;
+  tut25.fillRect(x, y, 150, 150);
+}
+
+window.addEventListener("mousemove", MoveSquare);
+</script>
+
+</body>
+</html>
