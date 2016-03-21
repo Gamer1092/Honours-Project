@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+
+<title>Move Objects with Keyboard</title>
+<h1>Move Objects with Keyboard:</h1>
+
+<canvas id="Honours Project 2" width="600" height="500"
+style="border:2px solid #000000;">
+Your browser does not support HTML5 canvas
+</canvas>
+
+<script>
+var c = document.getElementById("Honours Project 2");
+var tut2 = c.getContext("2d");
+
+var square_x = 10;
+var square_y = 10;
+var circle_x = 500;
+var circle_y = 420;
+
+drawSquare();
+drawCircle();
+
+function drawSquare(){
+  tut2.fillStyle = 'red';
+  tut2.fillRect(square_x , square_y, 100, 100);
+}
+
+function drawCircle(){
+  tut2.fillStyle = 'blue';
+  tut2.beginPath();
+  tut2.arc(circle_x, circle_y, 50, 0, Math.PI * 2, false);
+  tut2.fill();
+}
+
+//Move the square
+//Based on example found at http://www.homeandlearn.co.uk/JS/html5_canvas_keyboard_keys.html
+function SquareMovement(event){
+ //Move left using the Left arrow Key 
+ if(event.keyCode == '37'){
+   if(square_x  > 0)
+     square_x  -= 10;
+ }
+
+ //Move up using the Up arrow Key
+ if(event.keyCode == '38'){
+   if(square_y > 0)
+     square_y -= 10;
+ }
+
+ //Move right using the Right arrow Key 
+ if(event.keyCode == '39'){
+   if(square_x + 100 < c.width)
+     square_x  += 10;
+ }
+
+ //Move down using the Down arrow Key 
+ if(event.keyCode == '40'){
+   if(square_y + 100 < c.height)
+     square_y += 10;
+ }
+
+ //Reset everything using the 'R' key or 'r' key
+ if((event.keyCode == '82') || (event.keyCode == '114')){
+   square_x  = 10;
+   square_y = 10; 
+ } 
+
+ c.width = c.width; //This clears out the canvas when the square is moving
+ drawSquare();
+ drawCircle();
+}
+
+//Move the circle
+function CircleMovement(event){
+
+  //Move left using the 'A' or 'a' keys
+  if((event.keyCode == '65') || (event.keyCode == '97')){
+    if(circle_x > 50)
+      circle_x -= 10;
+  }
+
+  //Move up using the 'W' or 'w' keys
+  if((event.keyCode == '87') || (event.keyCode == '119')){
+    if(circle_y > 50)
+      circle_y -= 10;
+  }
+
+  //Move right using the 'D' or 'd' keys
+  if((event.keyCode == '68') || (event.keyCode == '100')){
+    if(circle_x + 50 < c.width)
+      circle_x += 10;
+  }
+
+  //Move down using the 'S' or 's' keys
+  if((event.keyCode == '83') || (event.keyCode == '115')){
+    if(circle_y + 50 < c.height)
+      circle_y += 10;
+  }
+  //Reset everything using the 'R' or 'r' keys
+  if((event.keyCode == '82') || (event.keyCode == '114')){
+    circle_x = 500;
+    circle_y = 420;
+  }
+
+  c.width = c.width; //This clears out the canvas when the circle is moving
+  drawSquare();
+  drawCircle();
+}
+
+window.addEventListener("keydown", SquareMovement);
+window.addEventListener("keydown", CircleMovement);
+</script>
+
+</body>
+</html>
