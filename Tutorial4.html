@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+
+<title>Animation</title>
+<h1>Animation:</h1>
+
+<canvas id = "Honours Project 4" width="310" height="310"
+style="border:2px solid #000000;">
+Your browser does not support HTML5 canvas.
+</canvas>
+
+<script>
+//Images found at http://etc.usf.edu/clipart/galleries/719-clock-faces-arabic-numerals
+var canvas = document.getElementById("Honours Project 4");
+var tut4 = canvas.getContext("2d");
+var counter = 0;
+
+//An array of clock faces
+var clockFaces = new Array(11);
+clockFaces[0] = new Image(310, 310);
+clockFaces[0].src = "12 o'clock.png";
+
+clockFaces[1] = new Image(310, 310);
+clockFaces[1].src = "1 o'clock.png";
+
+clockFaces[2] = new Image(310, 310);
+clockFaces[2].src = "2 o'clock.png";
+
+clockFaces[3] = new Image(310, 310);
+clockFaces[3].src = "3 o'clock.png";
+
+clockFaces[4] = new Image(310, 310);
+clockFaces[4].src = "4 o'clock.png";
+
+clockFaces[5] = new Image(310, 310);
+clockFaces[5].src = "5 o'clock.png";
+
+clockFaces[6] = new Image(310, 310);
+clockFaces[6].src = "6 o'clock.png";
+
+clockFaces[7] = new Image(310, 310);
+clockFaces[7].src = "7 o'clock.png";
+
+clockFaces[8] = new Image(310, 310);
+clockFaces[8].src = "8 o'clock.png";
+
+clockFaces[9] = new Image(310, 310);
+clockFaces[9].src = "9 o'clock.png";
+
+clockFaces[10] = new Image(310, 310);
+clockFaces[10].src = "10 o'clock.png";
+
+clockFaces[11] = new Image(310, 310);
+clockFaces[11].src = "11 o'clock.png";
+
+//Image displaying the current time
+var currentTime = clockFaces[0];
+tut4.drawImage(currentTime, 0, 0, canvas.width, canvas.height);
+
+//Change the hour of the clock
+function ClockHour(event){
+  //Clock goes backward
+  if(event.keyCode == '37' && counter == 0)
+    counter = clockFaces.length;
+  if(event.keyCode == '37' && counter > 0)
+    counter -= 1;
+
+  //Clock goes forward
+  if(event.keyCode == '39' && counter < clockFaces.length)
+    counter += 1;
+  if(event.keyCode == '39' && counter == clockFaces.length)
+    counter = 0;  
+
+  currentTime = clockFaces[counter];
+  tut4.drawImage(currentTime, 0, 0, canvas.width, canvas.height);
+}
+
+window.addEventListener("keydown", ClockHour);
+
+</script>
+
+</body>
+</html>
