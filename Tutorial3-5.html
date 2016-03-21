@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+
+<title>Rotation with the mouse</title>
+<h1>Rotation with the mouse:</h1>
+
+<canvas id="Honours Project 3.5" width="450" height="400"> 
+Your browser does not supprot HTML5 canvas
+</canvas>
+
+<script>
+//Image found at http://inferno.freedom-uplink.net/blog/category/video-games/
+var canvas = document.getElementById("Honours Project 3.5");
+var tut35 = canvas.getContext("2d");
+var games = new Image(180, 180);
+games.src = "videoGames.jpg";
+tut35.drawImage(games, 190, 150, 180, 180);
+
+function Rotate(){
+  tut35.clearRect(0, 0, canvas.width, canvas.height);
+  tut35.translate(190, 150);
+  tut35.rotate(30 * Math.PI/180);
+  tut35.translate(-190, -150); 
+  tut35.drawImage(games, 190, 150, 180, 180);
+}
+
+window.addEventListener("click", Rotate);
+</script>
+
+</body>
+</html>
