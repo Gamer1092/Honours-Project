@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+
+<title>Rotation</title>
+<h1>Rotation:</h1>
+
+<canvas id="Honours Project 3" width="450", height="400"
+style="border:2px solid #000000;">
+Your browser does not support HTML5 canvas
+</canvas>
+
+<script>
+//Image found at http://inferno.freedom-uplink.net/blog/category/video-games/
+var canvas = document.getElementById("Honours Project 3");
+var tut3 = canvas.getContext("2d");
+var games = new Image(160, 160);
+games.src = "videoGames.jpg";
+
+tut3.drawImage(games, 160, 150, 160, 160);
+
+//Rotate the image based on what key was pressed
+function Rotate(event){
+//To rotate an object translate to the point of interest
+//call the rotation then translate it back
+
+//Create a clear rectangle over the canvas so that residual imaging is not a problem
+  tut3.clearRect(0, 0, canvas.width, canvas.height);
+
+//Left arrow key makes image go counter-clockwise
+  if(event.keyCode == '37'){
+    tut3.translate(160, 150); 
+    tut3.rotate(-30*Math.PI/180);
+    tut3.translate(-160, -150);
+  }
+
+//Right arrow key makes image go clockwise
+  if(event.keyCode == '39'){
+    tut3.translate(160, 150);
+    tut3.rotate(30*Math.PI/180);
+    tut3.translate(-160, -150);
+  }
+
+  tut3.drawImage(games, 160, 150, 160, 160);
+}
+
+window.addEventListener("keydown", Rotate);
+
+</script>
+
+</body>
+</html>
