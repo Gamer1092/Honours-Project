@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+
+<title>Basic Display of Multiple Squares with Images</title>
+<h1>Basic Display of Multiple Squares with Images:</h1>
+
+<p><b>Final Result:</b></p>
+<canvas id = "Honours Project 1.5" width="515" height="515"
+style="border:2px solid #000000;">
+Your browser does not support HTML5 canvas.
+</canvas>
+
+<script>
+//Image 1 taken from http://mrmckenzie.tumblr.com/page/2
+//Image 2 taken from http://www.edgital.org/2013/08/
+//Image 3 taken from http://pcfaq.pl/newsy/najlepsze-gry-i-konsole-wg-nokaut-pl/
+var canvas = document.getElementById("Honours Project 1.5");
+var tut15 = canvas.getContext("2d");
+var images = new Array(2);
+
+images[0] = new Image(220, 220);
+images[0].src = "game-design.jpg";
+
+images[1] = new Image(220, 220);
+images[1].src = "game_design_chart.png";
+
+images[2] = new Image(475, 220);
+images[2].src = "game-console.jpg";
+
+//First square 
+tut15.fillStyle = 'red';
+tut15.fillRect(5, 5, 250, 250);
+tut15.drawImage(images[0], 20, 20, 220, 220);
+
+//Second square
+tut15.fillStyle = 'blue';
+tut15.fillRect(260, 5, 250, 250);
+tut15.drawImage(images[1], 275, 20, 220, 220);
+
+//Third square
+tut15.fillStyle = 'yellow';
+tut15.fillRect(5, 260, 505, 250); 
+tut15.drawImage(images[2], 20, 275, 475, 220);
+</script>
+
+
+</body>
+</html>
