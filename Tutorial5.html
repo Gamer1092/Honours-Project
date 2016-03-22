@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+
+<title>Collision Detection</title>
+<h1>Collision Detection:</h1>
+
+<canvas id = "Honours Project 5" width="750" height="500"
+style="border:2px solid #000000;">
+Your browser does not support HTML5 canvas.
+</canvas>
+
+<script>
+
+//Global variables
+var canvas = document.getElementById("Honours Project 5");
+var tut5 = canvas.getContext("2d");
+
+//Ship variables
+var shipX = 0;		//starting x-position for the ship
+var shipY = 0;		//starting y-position for the ship
+var shipWidth = 100;	//width of the ship
+var shipHeight = 100;	//height of the ship
+var alive = 1;   	//boolean value for whether the ship is destroyed or not
+var victory = 0;	//boolean value for whether the player has won the game
+var shipHit = 0;	//boolean value for collision detection with the ship
+
+//Asteroid variables
+var asteroidsX = new Array(29); //x-values for the asteroids
+var asteroidsY = new Array(29); //y-values for the asteroids
+for(var i = 0; i <= 30; i++){
+  asteroidsX[i] = Math.floor((Math.random() * 500) + 100); //random x-positions
+  asteroidsY[i] = Math.floor((Math.random() * 400) + 50); //random y-positions
+}
+var asteroidWidth = 50;
+var asteroidHeight = 50;
+
+//Sound files
+//Sound effect found at: http://www.digitpress.com/dpsoundz/soundfx.htm
+var gameover = new Audio('death.wav');
+//Sound effect found at: http://www.mediacollege.com/downloads/sound-effects/explosion/
+var explosion = new Audio('explosion.wav');
+//Sound effect found at: http://soundbible.com/478-Cheering-3.html
+var winSound = new Audio('win.wav');
+//Sound effect found at: http://www.gamethemesongs.com/Tetris_-_EA_-_Android_-_4.html
+var stage_song = new Audio('stage_music.mp3');
+
+//Play this song while the game is still in progress
+stage_song.play();
+
+drawShip();
+drawBase();
+drawAsteroids();
+
+window.addEventListener("keydown", ShipMovement);
+window.addEventListener("keydown", ShrinkorGrow);
+
+//Create the player's ship
+function drawShip(){ 
+  tut5.fillStyle = 'red';
+  tut5.fillRect(shipX, shipY, shipWidth, shipHeight);
+}
+
+//Create the base that you must reach to win the game
+function drawBase(){
+  tut5.fillStyle = 'green';
+  tut5.fillRect(650, 400, 100, 100);
+}
+
+//Create the asteroids that you want to avoid
+//Based on example found at https://msdn.microsoft.com/en-us/library/ie/gg589497(v=vs.85).aspx
+function drawAsteroids(){ 
+  for(var i = 0; i <= 30; i++){
+    tut5.fillStyle = 'black';
+    tut5.fillRect(asteroidsX[i], asteroidsY[i], asteroidWidth, asteroidHeight);
+  }
+}
+
+//Move the ship (Only if collision has not been detected)
+function ShipMovement(event){
+  if(alive && !victory){
+  // Left arrow Key
+    if(event.keyCode == '37'){
+      if(shipX > 0)
+        shipX -= 10;
+    }
+
+  // Up arrow Key
+    if(event.keyCode == '38'){
+      if(shipY > 0)
+        shipY -= 10;
+    }
+
+  // Right arrow Key
+    if(event.keyCode == '39'){
+      if(shipX + shipHeight < canvas.width)
+        shipX += 10;
+    }
+
+  //Down arrow Key
+    if(event.keyCode == '40'){
+      if(shipY + shipHeight < canvas.height)
+        shipY += 10;
+    }
+  }
+
+  //Reset everything after a reset button is pushed
+  if((event.keyCode == '82') || (event.keyCode == '114')){
+    shipX = shipY = 0; 
+    alive = 1; 
+    victory = 0;
+    shipHit = 0;
+    shipWidth = shipHeight = 100;
+    asteroidWidth = asteroidHeight = 50;
+    for(var i = 0; i <= 30; i++){
+      asteroidsX[i] = Math.floor((Math.random() * 500) + 100); 
+      asteroidsY[i] = Math.floor((Math.random() * 400) + 50);
+    }
+  }
+
+  canvas.width = canvas.width;
+  drawBase();
+  drawShip();
+  drawAsteroids();
+  stage_song.play();
+  CollisionDetection();
+}
+
+function ShrinkorGrow(event){
+  if(alive && !victory){
+  //The 'S' or 's' keys make the ship shrink
+    if((event.keyCode == '83') || (event.keyCode == '115')){
+      if((shipWidth > 10) && (shipHeight > 10)){
+         shipWidth -= 10;
+         shipHeight -= 10;
+      }
+    }
+
+  //The 'G' or 'g' keys make the ship grow
+    if((event.keyCode == '71') || (event.keyCode == '103')){
+      if((shipWidth < 100) && (shipHeight < 100)){
+        shipWidth += 10;
+        shipHeight += 10;
+      }
+    }
+  }
+  CollisionDetection();
+}
+
+//Check for collision
+function CollisionDetection(){
+  
+  //Ship to Asteroid Collision (Game Over)
+  //Based on example found at https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+  for(var i = 0; i <= 30; i++){
+    if((shipX < asteroidsX[i] + asteroidWidth) && 
+      (shipX + shipWidth > asteroidsX[i]) && 
+      (shipY < asteroidsY[i] + asteroidHeight) && 
+      (shipY + shipHeight > asteroidsY[i])){
+      shipHit = 1;
+    }
+  }
+
+  if(shipHit){
+    explosion.play();
+    alive = 0;
+    shipWidth = shipHeight = 0;
+    asteroidWidth = asteroidHeight = 0;
+  }
+
+  if(!alive){
+    gameover.play();
+    tut5.fillStyle = 'blue';
+    tut5.font = "bold 36px Arial";
+    tut5.fillText("Game Over!!", 450, 450);
+    tut5.font = "bold 20px Arial";
+    tut5.fillText("Press R or r to restart", 450, 480);
+  }
+
+  //Ship reaches the end of the base (You win the game)
+  if((shipX == 650) && (shipY == 400) 
+     && (shipX + shipWidth == 750) && (shipY + shipHeight == 500)){
+    victory = 1;
+  }
+ 
+  if(victory){
+    winSound.play();
+    asteroidWidth = asteroidHeight = 0;
+    tut5.font = "bold 36px Arial";
+    tut5.fillText("You Win!!", 450, 450);
+    tut5.font = "bold 20px Arial";
+    tut5.fillText("Press R or r to restart", 450, 480);
+  }
+}
+
+</script>
+</body>
+</html>
